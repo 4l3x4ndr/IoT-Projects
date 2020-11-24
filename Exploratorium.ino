@@ -11,7 +11,9 @@ uint8_t Pwm2 = D2; //Nodemcu PWM pin
 
 //Seven segment pins attachecd with nodemcu pins  
 int a0 = 15;  //Gpio-15 of nodemcu esp8266  
-int a1 = 13;  //Gpio-13 of nodemcu esp8266  
+int a1 = 13;  //Gpio-13 of nodemcu esp8266 
+int a2 = 12;  //Gpio-12 of nodemcu esp8266   
+int a3 = 14;  //Gpio-14 of nodemcu esp8266    
 
 WiFiServer server(80);
  
@@ -21,6 +23,8 @@ void setup() {
 //Declaring l293d control pins as Output
 pinMode(a0, OUTPUT);     
 pinMode(a1, OUTPUT);   
+pinMode(a2, OUTPUT);
+pinMode(a3, OUTPUT);  
  
   // Connect to WiFi network
   Serial.println();
@@ -73,6 +77,8 @@ void loop() {
  if (request.indexOf("/start=1") != -1)  {  
   digitalWrite(a0, HIGH); //Start first motor
   digitalWrite(a1, LOW);
+  digitalWrite(a2, HIGH); //Start second motor
+  digitalWrite(a3, LOW);
   Ms=1;
   dir=1;
 }
@@ -80,6 +86,8 @@ void loop() {
 if (request.indexOf("/stop=1") != -1)  {  
   digitalWrite(a0, LOW); //Stop first motor
   digitalWrite(a1, LOW);
+  digitalWrite(a2, LOW); //Stop second motor
+  digitalWrite(a3, LOW);
   Ms=0;
 }
 
@@ -87,6 +95,9 @@ if (request.indexOf("/tog=1") != -1)  {
   digitalWrite(a0, LOW);  //Change First motor rotation direction
   delay(5000); //5 seconds delay
   digitalWrite(a1, HIGH);
+   digitalWrite(a2, LOW); //Change Second motor rotation direction
+  delay(5000); //5 seconds delay
+  digitalWrite(a3, HIGH);
   dir=0;
 }
 
